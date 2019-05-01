@@ -59,12 +59,12 @@ void main()
 	}
 }
 
-void fun_init(void)//	1. 파 일  초기화
+void fun_init(void)	// 1. 파 일  초기화
 {
 	char d;
 	clrscr();
 
-	fp1 = fopen("data.txt", "w");  // 쓰기용으로 파일 만들기.같은 이름이 있다면 덮어쓰기
+	fp1 = fopen("data.txt", "w");	// 쓰기용으로 파일 만들기.같은 이름이 있다면 덮어쓰기
 	fp = fopen("anilist.txt", "w");
 
 	printf("\n\n\t\t\t !! 파일이 초기화 되었습니다. !!\n");
@@ -88,13 +88,13 @@ void fun_init(void)//	1. 파 일  초기화
 	}
 }
 
-void fun_input(void)//		2. 동물목록 추가
+void fun_input(void)	// 2. 동물목록 추가
 {
 	int i = 0, z = 0;
 	char d;
-	clrscr();  // 화면을 지워주는 함수
+	clrscr();	// 화면을 지워주는 함수
 
-	fp1 = fopen("data.txt", "r");  //fp1포인터에 미리 만들어진 data.txt를 읽어들인다.
+	fp1 = fopen("data.txt", "r");	// fp1포인터에 미리 만들어진 data.txt를 읽어들인다.
 
 	// 내용이 있다면 읽어온다, 파일이 끝날때 까지 a구조체에 넣는다.
 	while (fscanf(fp1, "%d %50s %50s %50s %10s", &a[z].key, &a[z].name, &a[z].group, &a[z].place, &a[z].life) != EOF)
@@ -108,7 +108,7 @@ void fun_input(void)//		2. 동물목록 추가
 		printf("\n\n\t\t데이터 삽입\n");
 
 		printf("\n\n\t레코드 번호 : %d\n", ((i == 0) ? i + 1 : i));
-		fclose(fp1); // 읽은 data.txt를 닫음
+		fclose(fp1);	// 읽은 data.txt를 닫음
 
 		printf("\n\t동물이름 : ");
 		scanf("%s", &a[i].name);
@@ -153,15 +153,15 @@ void fun_call(void)    //  3. 동물목록 검색,
 	int i, j, h, l, m, w, x, z;
 	char d;
 
-	clrscr();  // 화면을 지워주는 함수
+	clrscr();	// 화면을 지워주는 함수
 	printf("\n\n=========================\n");
 	printf("         동물검색 \n");
 	printf("=========================\n\n");
 
-	fp1 = fopen("data.txt", "r");  //fp1포인터에 미리 만들어진 data.txt를 읽어들인다.
+	fp1 = fopen("data.txt", "r");	// fp1포인터에 미리 만들어진 data.txt를 읽어들인다.
 	fp = fopen("anilist.txt", "a+");
 
-	//파일이 끝날때 까지 a구조체에 넣는다.
+	// 파일이 끝날때 까지 a구조체에 넣는다.
 	z = 0;
 	while (fscanf(fp1, "%d %50s %50s %50s %10s", &a[z].key, &a[z].name, &a[z].group, &a[z].place, &a[z].life) != EOF)
 		z++;
@@ -169,7 +169,7 @@ void fun_call(void)    //  3. 동물목록 검색,
 	if (z == 0)
 	{
 		printf("\n   동물 목록이 없습니다.");
-		Search_Question();
+		Search_Question(); // yes, no 안내
 		return;
 	}
 
@@ -180,10 +180,10 @@ void fun_call(void)    //  3. 동물목록 검색,
 
 key:
 	printf("\n\n   Select Number :  ");
-	scanf(" %d", &x);
+	scanf(" %d", &x);	// 찾는 값 입력
 
-	l = 0;  // ㅣ: 최솟값
-	h = z;  // h : 최댓값
+	l = 0;	// ㅣ: 최솟값
+	h = z;	// h : 최댓값
 	j = -1; 
 
 	
@@ -194,10 +194,10 @@ key:
 		switch (w)
 		{
 		case '>':
-			l = m + 1; // ㅣ: 최솟값
+			l = m + 1;	// ㅣ: 최솟값
 			break;
 		case '<':
-			h = m - 1; // h = 최댓값
+			h = m - 1;	// h = 최댓값
 			break;
 		case '=':
 			j = m;
