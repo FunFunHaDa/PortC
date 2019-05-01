@@ -2,7 +2,7 @@
 #include <stdlib.h>         // 화면지워주는 함수를 사용하기 위해 사용해야함.
 #include <string.h>
 
-#define MAX 2
+#define MAX 20 // 총 저장 할 수 있는 숫자
 #define NAME_SIZ 50
 #define GROUP_SIZ 50
 #define PLACE_SIZ 50
@@ -100,7 +100,7 @@ void fun_input(void)//		2. 동물목록 추가
 	while (fscanf(fp1, "%d %50s %50s %50s %10s", &a[z].key, &a[z].name, &a[z].group, &a[z].place, &a[z].life) != EOF)
 	{
 		i = a[z].key + 1;
-		printf("%d\n", a[z].key);
+		// printf("%d\n", a[z].key);
 	}
 
 	if (i <= MAX)
@@ -127,7 +127,7 @@ void fun_input(void)//		2. 동물목록 추가
 		fprintf(fp1, "\n%d  %s  %s  %s  %s", ((i == 0) ? i + 1 : i), a[i].name, a[i].group, a[i].place, a[i].life);
 	}
 	else
-		printf("\n\n\t       !! 15개의 레코드만 저장할 수 있습니다 !!\n");
+		printf("\n\n\t       !! 20개의 레코드만 저장할 수 있습니다 !!\n");
 
 
 	printf("\n\n\n\t\t메인화면으로 돌아가시겠습니까(y/n)? ");
