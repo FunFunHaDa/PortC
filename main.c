@@ -3,33 +3,33 @@
 #include <string.h>
 
 #define MAX 20 // 총 저장 할 수 있는 숫자
-#define NAME_SIZ 50
-#define GROUP_SIZ 50
-#define PLACE_SIZ 50
-#define LIFE_SIZ 20
+#define NAME_SIZE 50
+#define GROUP_SIZE 50
+#define PLACE_SIZE 50
+#define LIFE_SIZE 20
 
 FILE *fp, *fp1;
 
-void com(int x, int y, int *w);
-void fun_init(void); 
-void fun_input(void);
-void fun_call(void);
-void fun_del(void);
+void com(int x, int y, int *w); // 검색시 비교 연산
+void fun_init(void);	//	1. 파 일  초기화
+void fun_input(void);	//  2. 동물목록 추가
+void fun_call(void);	//  3. 동물목록 검색 
+void fun_del(void);		//  4. 동물목록 삭제  
 void clrscr(void);
-void Search_Question(void);
+void Search_Question(void); // Yes or No
 
 struct MASTER
 {
 	int key;
-	char name[NAME_SIZ];
-	char group[GROUP_SIZ];
-	char place[PLACE_SIZ];
-	char life[LIFE_SIZ];
+	char name[NAME_SIZE];
+	char group[GROUP_SIZE];
+	char place[PLACE_SIZE];
+	char life[LIFE_SIZE];
 } a[MAX];
 
 void main()
 {
-	int s;
+	int input;
 	clrscr();
 
 	printf("\n\n\n\n");
@@ -42,9 +42,9 @@ void main()
 	printf("\t================================\n");
 
 	printf("\n\t\t번호를 고르시오 : ");
-	scanf("%d", &s);
+	scanf("%d", &input);
 
-	switch (s) {
+	switch (input) {
 	case 1: fun_init();		//	1. 파 일  초기화
 		break;
 	case 2: fun_input();	//  2. 동물목록 추가
@@ -56,12 +56,14 @@ void main()
 	case 5:
 		printf("\n\n\t프로그램을 종료합니다.\n");
 		break;
+	default:
+		main();
 	}
 }
 
 void fun_init(void)	// 1. 파 일  초기화
 {
-	char d;
+	char input;
 	clrscr();
 
 	fp1 = fopen("data.txt", "w");	// 쓰기용으로 파일 만들기.같은 이름이 있다면 덮어쓰기
@@ -74,9 +76,9 @@ void fun_init(void)	// 1. 파 일  초기화
 	printf("\n\n\n\t\t메인화면으로 돌아가시겠습니까(y/n)? ");
 
 	rewind(stdin);
-	scanf("%c", &d);
+	scanf("%c", &input);
 
-	switch (d) {
+	switch (input) {
 	case 'y':
 	case 'Y':
 		main();
@@ -90,17 +92,16 @@ void fun_init(void)	// 1. 파 일  초기화
 
 void fun_input(void)	// 2. 동물목록 추가
 {
-	int i = 0, z = 0;
-	char d;
+	int i = 0;
+	char input;
 	clrscr();	// 화면을 지워주는 함수
 
 	fp1 = fopen("data.txt", "r");	// fp1포인터에 미리 만들어진 data.txt를 읽어들인다.
 
 	// 내용이 있다면 읽어온다, 파일이 끝날때 까지 a구조체에 넣는다.
-	while (fscanf(fp1, "%d %50s %50s %50s %10s", &a[z].key, &a[z].name, &a[z].group, &a[z].place, &a[z].life) != EOF)
+	while (fscanf(fp1, "%d %50s %50s %50s %10s", &a[0].key, &a[0].name, &a[0].group, &a[0].place, &a[0].life) != EOF)
 	{
-		i = a[z].key + 1;
-		// printf("%d\n", a[z].key);
+		i = a[0].key + 1;
 	}
 
 	if (i <= MAX)
@@ -132,9 +133,9 @@ void fun_input(void)	// 2. 동물목록 추가
 
 	printf("\n\n\n\t\t메인화면으로 돌아가시겠습니까(y/n)? ");
 	rewind(stdin);
-	scanf("%c", &d);
+	scanf("%c", &input);
 
-	switch (d) {
+	switch (input) {
 	case 'y':
 	case 'Y':
 		fclose(fp1);
@@ -178,15 +179,14 @@ void fun_call(void)    //  3. 동물목록 검색,
 	for (i = 0; i < z; i++)
 		printf("\t %d. %s\n", a[i].key, a[i].name);
 
-key:
 	printf("\n\n   Select Number :  ");
 	scanf(" %d", &x);	// 찾는 값 입력
 
 	l = 0;	// ㅣ: 최솟값
 	h = z;	// h : 최댓값
-	j = -1; 
+	j = -1;
 
-	
+
 	while (l <= h)
 	{
 		m = (l + h) / 2;
@@ -210,7 +210,7 @@ key:
 	if (j == -1)
 	{
 		printf("\n   %d번의 데이터를 찾을 수가 없습니다.\n", x);
-		goto key;
+		Search_Question();
 	}
 	else
 	{
@@ -231,11 +231,11 @@ key:
 		fprintf(fp, "   서식지 : %s\n", a[j].place);
 		fprintf(fp, "    수명  : %s\n", a[j].life);
 		fprintf(fp, "  ==================================\n");
+
+		Search_Question();
 	}
-
-	Search_Question();
 }
-
+/////////
 void fun_del(void)  //  4. 동물목록 삭제  
 {
 	int i, z = 0, j = 0;
@@ -245,7 +245,7 @@ void fun_del(void)  //  4. 동물목록 삭제
 	fp1 = fopen("data.txt", "r");
 
 	while (fscanf(fp1, "%d %50s %50s %50s %10s", &a[z].key, &a[z].name, &a[z].group, &a[z].place, &a[z].life) != EOF)
-		z++; 
+		z++;
 
 	printf("\t 동물목록 \n\n");
 
